@@ -15,6 +15,7 @@ namespace App\Controllers;
  */
 
 use CodeIgniter\Controller;
+use CodeIgniter\Session\Session;
 
 class BaseController extends Controller
 {
@@ -28,6 +29,13 @@ class BaseController extends Controller
 	 */
 	protected $helpers = [];
 
+    /**
+     * Access to current session.
+     *
+     * @var Session
+     */
+    protected $session;
+
 	/**
 	 * Constructor.
 	 */
@@ -39,8 +47,7 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
-		// E.g.:
-		// $this->session = \Config\Services::session();
+		$this->session = \Config\Services::session();
 	}
 
 }
