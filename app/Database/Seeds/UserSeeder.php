@@ -11,8 +11,8 @@ class UserSeeder extends \CodeIgniter\Database\Seeder
             'last_name' => 'Admin',
             'role_id' => 1,
             'email' => 'admin@admin.com',
-            'password' => '123456',
-            'contact_number' => password_hash('123456', PASSWORD_BCRYPT),
+            'password' => password_hash('123456', PASSWORD_BCRYPT),
+            'contact_number' => '+447454263626',
             'created_at' => time(),
             'updated_at' => time()
          ];

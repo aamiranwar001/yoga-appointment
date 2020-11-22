@@ -51,7 +51,8 @@ class UserModel extends Model
     public function getRegistrationRules()
     {
         return [
-            'name' => 'required|alpha_space|min_length[2]',
+            'first_name' => 'required|alpha_space|min_length[2]',
+            'last_name' => 'required|alpha_space|min_length[2]',
             'email'	=> 'required|valid_email|is_unique[users.email]',
             'password' => 'required|min_length[5]',
             'password_confirm' => 'matches[password]',
