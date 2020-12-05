@@ -8,4 +8,9 @@ class AppointmentController extends BaseController
     {
         return view('customer/index');
     }
+
+    public function create()
+    {
+        
+    }
 }

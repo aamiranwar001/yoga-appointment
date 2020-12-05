@@ -22,6 +22,16 @@ class CreateAppointmentsTable extends Migration
                 'unsigned' => true,
                 'null' => true
             ],
+            'title' => [
+                'type' => 'VARCHAR',
+                'constraint' => '256',
+                'null' => true
+            ],
+            'description' => [
+                'type' => 'VARCHAR',
+                'constraint' => '1024',
+                'null' => true
+            ],
             'date' => [
                 'type' => 'BIGINT'
             ],
