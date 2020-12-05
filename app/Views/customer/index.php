@@ -57,7 +57,6 @@
                     aria-haspopup="true" aria-expanded="true">
                     <i id="calendarTypeIcon" class="calendar-icon ic_view_month" style="margin-right: 4px;"></i>
                     <span id="calendarTypeName">Dropdown</span>&nbsp;
-                    <i class="calendar-icon tui-full-calendar-dropdown-arrow"></i>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-calendarType">
                     <li role="presentation">
@@ -83,25 +82,6 @@
                     <li role="presentation">
                         <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks3">
                             <i class="calendar-icon ic_view_week"></i>3 weeks
-                        </a>
-                    </li>
-                    <li role="presentation" class="dropdown-divider"></li>
-                    <li role="presentation">
-                        <a role="menuitem" data-action="toggle-workweek">
-                            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-workweek" checked>
-                            <span class="checkbox-title"></span>Show weekends
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a role="menuitem" data-action="toggle-start-day-1">
-                            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-start-day-1">
-                            <span class="checkbox-title"></span>Start Week on Monday
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a role="menuitem" data-action="toggle-narrow-weekend">
-                            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-narrow-weekend">
-                            <span class="checkbox-title"></span>Narrower than weekdays
                         </a>
                     </li>
                 </ul>

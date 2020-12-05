@@ -14,7 +14,7 @@
     var ScheduleList = [];
 
     cal = new Calendar('#calendar', {
-        defaultView: 'week',
+        defaultView: 'month',
         useCreationPopup: useCreationPopup,
         useDetailPopup: useDetailPopup,
         template: {
@@ -22,10 +22,10 @@
                 return '<span class="calendar-font-icon ic-milestone-b"></span> <span style="background-color: ' + model.bgColor + '">' + model.title + '</span>';
             },
             allday: function(schedule) {
-                return getTimeTemplate(schedule, true);
+                return getTimeTemplate(schedule, false);
             },
             time: function(schedule) {
-                return getTimeTemplate(schedule, false);
+                return getTimeTemplate(schedule, true);
             }
         }
     });

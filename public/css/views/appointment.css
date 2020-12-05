@@ -33,24 +33,24 @@ body {
 }
 
 .open > .dropdown-toggle.btn-default {
-  background-color: #fff;
+  background-color: #fff !important;
 }
 
 .dropdown-menu {
-  top: 25px;
-  padding: 3px 0;
-  border-radius: 2px;
-  border: 1px solid #bbb;
+  top: 25px !important;
+  padding: 3px 0 !important;
+  border-radius: 2px !important;
+  border: 1px solid #bbb !important;
 }
 
 .dropdown-menu > li > a {
-  padding: 9px 12px;
-  cursor: pointer;
+  padding: 9px 12px !important;
+  cursor: pointer !important;
 }
 
 .dropdown-menu > li > a:hover {
-  background-color: rgba(81, 92, 230, 0.05);
-  color: #333;
+  background-color: rgba(81, 92, 230, 0.05) !important;
+  color: #333 !important;
 }
 
 .bi15 {
@@ -166,7 +166,7 @@ body {
 }
 
 #dropdownMenu-calendarType {
-  padding: 0 8px 0 11px;
+  padding: 0 8px 0 11px !important;
 }
 
 #calendarTypeName {
@@ -193,7 +193,7 @@ body {
 }
 
 .dropdown-menu-title .calendar-icon {
-  margin-right: 8px;
+  margin-right: 8px !important;
 }
 
 .calendar-bar {
@@ -257,3 +257,88 @@ body {
     display: inline-block;
     vertical-align: middle;
 }
+
+
+<!---->
+/* font icons */
+@font-face {
+  font-family: 'tui-calendar-font-icon';
+  src: url('../fonts/icon.eot') format('embedded-opentype'),
+       url('../fonts/icon.ttf') format('truetype'),
+       url('../fonts/icon.woff') format('woff'),
+       url('../fonts/icon.svg') format('svg');
+}
+
+.calendar-icon {
+width: 14px;
+height: 14px;
+display: inline-block;
+vertical-align: middle;
+}
+
+.calendar-font-icon {
+font-family: 'tui-calendar-font-icon';
+font-size: 10px;
+font-weight: normal;
+}
+
+.img-bi {
+background: url('/img/icons/img-bi.png') no-repeat;
+width: 215px;
+height: 16px;
+}
+
+.ic_view_month {
+background: url('/img/icons/ic-view-month.png') no-repeat;
+}
+
+.ic_view_week {
+background: url('/img/icons/ic-view-week.png') no-repeat;
+}
+
+.ic_view_day {
+background: url('/img/icons/ic-view-day.png') no-repeat;
+}
+
+.ic-arrow-line-left {
+background: url('/img/icons/ic-arrow-line-left.png') no-repeat;
+}
+
+.ic-arrow-line-right {
+background: url('/img/icons/ic-arrow-line-right.png') no-repeat;
+}
+
+.ic-travel-time {
+background: url('/img/icons/ic-traveltime-w.png') no-repeat;
+}
+
+/* font icons */
+.ic-location-b:before {
+content: '\e900';
+}
+
+.ic-lock-b:before {
+content: '\e901';
+}
+
+.ic-milestone-b:before {
+content: '\e902';
+}
+
+.ic-readonly-b:before {
+content: '\e903';
+}
+
+.ic-repeat-b:before {
+content: '\e904';
+}
+
+.ic-state-b:before {
+content: '\e905';
+}
+
+.ic-user-b:before {
+content: '\e906';
+}
+
+
