@@ -49,6 +49,11 @@
             <input type="submit" value="Login" class="btn btn-info btn-block">
         
         </form>
+
+                    <div id="formFooter">
+                    Do not have account?
+                        <a class="underlineHover" href="<?= base_url('register') ?>">Register</a>
+                    </div>
                 </div>
             </div>
         

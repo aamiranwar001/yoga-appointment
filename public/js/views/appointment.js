@@ -13,21 +13,73 @@
     var CalendarList = [];
     var ScheduleList = [];
 
+
+    var templates = {
+        popupIsAllDay: function() {
+          return 'All Day';
+        },
+        popupStateFree: function() {
+          return 'Free';
+        },
+        popupStateBusy: function() {
+          return 'Busy';
+        },
+        titlePlaceholder: function() {
+          return 'Subject';
+        },
+        locationPlaceholder: function() {
+          return 'Description';
+        },
+        startDatePlaceholder: function() {
+          return 'Start date';
+        },
+        endDatePlaceholder: function() {
+          return 'End date';
+        },
+        popupSave: function() {
+          return 'Save';
+        },
+        popupUpdate: function() {
+          return 'Update';
+        },
+        popupDetailDate: function(isAllDay, start, end) {
+          var isSameDate = moment(start).isSame(end);
+          var endFormat = (isSameDate ? '' : 'YYYY.MM.DD ') + 'hh:mm a';
+    
+          if (isAllDay) {
+            return moment(start).format('YYYY.MM.DD') + (isSameDate ? '' : ' - ' + moment(end).format('YYYY.MM.DD'));
+          }
+    
+          return (moment(start).format('YYYY.MM.DD hh:mm a') + ' - ' + moment(end).format(endFormat));
+        },
+        popupDetailLocation: function(schedule) {
+          return 'Location : ' + schedule.location;
+        },
+        popupDetailUser: function(schedule) {
+          return 'User : ' + (schedule.attendees || []).join(', ');
+        },
+        popupDetailState: function(schedule) {
+          return 'State : ' + schedule.state || 'Busy';
+        },
+        popupDetailRepeat: function(schedule) {
+          return 'Repeat : ' + schedule.recurrenceRule;
+        },
+        popupDetailBody: function(schedule) {
+          return 'Body : ' + schedule.body;
+        },
+        popupEdit: function() {
+          return 'Edit';
+        },
+        popupDelete: function() {
+          return 'Delete';
+        }
+      };
+
     cal = new Calendar('#calendar', {
         defaultView: 'month',
         useCreationPopup: useCreationPopup,
         useDetailPopup: useDetailPopup,
-        template: {
-            milestone: function(model) {
-                return '<span class="calendar-font-icon ic-milestone-b"></span> <span style="background-color: ' + model.bgColor + '">' + model.title + '</span>';
-            },
-            allday: function(schedule) {
-                return getTimeTemplate(schedule, false);
-            },
-            time: function(schedule) {
-                return getTimeTemplate(schedule, true);
-            }
-        }
+        template: templates
     });
 
     // event handlers
@@ -115,6 +167,18 @@
         }
 
         return html.join('');
+    }
+
+    function findCalendar(id) {
+        var found;
+    
+        CalendarList.forEach(function(calendar) {
+            if (calendar.id === id) {
+                found = calendar;
+            }
+        });
+    
+        return found || CalendarList[0];
     }
 
     /**
@@ -215,7 +279,7 @@
         }
 
         cal.createSchedules([{
-            id: String(chance.guid()),
+            id: String(1),
             calendarId: calendar.id,
             title: title,
             isAllDay: isAllDay,
@@ -230,7 +294,7 @@
             raw: {
                 location: location
             },
-            state: 'Busy'
+            state: 'Free'
         }]);
 
         $('#modal-new-schedule').modal('hide');
@@ -269,7 +333,7 @@
     function saveNewSchedule(scheduleData) {
         var calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
         var schedule = {
-            id: String(chance.guid()),
+            id: String(1),
             title: scheduleData.title,
             isAllDay: scheduleData.isAllDay,
             start: scheduleData.start,
