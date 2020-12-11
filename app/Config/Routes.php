@@ -36,7 +36,10 @@ $routes->post('/login', 'AuthController::attemptLogin');
 $routes->get('/register', 'AuthController::register', ['as' => 'register']);
 $routes->post('/register', 'AuthController::attemptRegister');
 $routes->get('/logout', 'AuthController::logout', ['as' => 'logout']);
+
 $routes->get('/appointments', 'AppointmentController::index', ['as' => 'appointments']);
+$routes->get('/newAppointment', 'AppointmentController::create', ['as' => 'newAppointment']);
+
 
 /**
  * --------------------------------------------------------------------

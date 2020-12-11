@@ -11,6 +11,6 @@ class AppointmentController extends BaseController
 
     public function create()
     {
-        
+        return view('customer/newAppointment');
     }
 }
