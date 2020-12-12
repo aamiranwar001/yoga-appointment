@@ -30,14 +30,31 @@
                 </div>
                 <div class="card-body">
                     <form role="form" action="<?= base_url('createAppointment') ?>" method="POST">
-                        
-                        <div class="form-group">
-                            <input type="text" name="title" id="title" class="form-control form-control-lg <?= array_key_exists('title', $errors) ? 'is-invalid' : '' ?>" placeholder="Title" value="<?= old('title') ?>">
-                            <?php if(array_key_exists('title', $errors)) : ?>
-                                <div class="invalid-feedback"><?= $errors['title'] ?></div>
-                            <?php endif ?>
+                    <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6">    
+                                <div class="form-group">
+                                    <input type="text" name="title" id="title" class="form-control form-control-lg <?= array_key_exists('title', $errors) ? 'is-invalid' : '' ?>" placeholder="Title" value="<?= old('title') ?>">
+                                    <?php if(array_key_exists('title', $errors)) : ?>
+                                        <div class="invalid-feedback"><?= $errors['title'] ?></div>
+                                    <?php endif ?>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-6">    
+                                <div class="form-group">
+                                    <select name="tutor_id" id="tutor_id" class="form-control form-control-lg <?= array_key_exists('tutor_id', $errors) ? 'is-invalid' : '' ?>">
+                                            <option value="1" selected>Ahmad</option>
+                                            <option value="2">Aamir</option>
+                                            <option value="3">Raza</option>
+                                    </select>
+                                    <?php if(array_key_exists('tutor_id', $errors)) : ?>
+                                        <div class="invalid-feedback"><?= $errors['tutor_id'] ?></div>
+                                    <?php endif ?>
+                                </div>
+                            </div>
                         </div>
-                    
+
+
                         <div class="form-group">
                             <textarea rows="3" maxlength="512" name="description" id="description" 
                             class="form-control form-control-lg <?= array_key_exists('description', $errors) ? 'is-invalid' : '' ?>" 
@@ -48,6 +65,7 @@
                             <?php endif ?>
                         </div>
             
+
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
@@ -59,7 +77,7 @@
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <select name="time" id="time" class="form-control form-control-lg <?= array_key_exists('time', $errors) ? 'is-invalid' : '' ?>">
+                                    <select name="time_slot" id="time_slot" class="form-control form-control-lg <?= array_key_exists('time_slot', $errors) ? 'is-invalid' : '' ?>">
                                         <option value="1" selected>09:00am-10:00am</option>
                                         <option value="2">10:00am-11:00am</option>
                                         <option value="3">11:00am-12:00pm</option>
@@ -73,8 +91,8 @@
                                         <option value="11">07:00pm-08:00pm</option>
                                         <option value="12">08:00pm-09:00pm</option>
                                     </select>
-                                    <?php if(array_key_exists('time', $errors)) : ?>
-                                        <div class="invalid-feedback"><?= $errors['time'] ?></div>
+                                    <?php if(array_key_exists('time_slot', $errors)) : ?>
+                                        <div class="invalid-feedback"><?= $errors['time_slot'] ?></div>
                                     <?php endif ?>
                                 </div>
                             </div>
