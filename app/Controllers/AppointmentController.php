@@ -9,8 +9,11 @@ class AppointmentController extends BaseController
         return view('customer/index');
     }
 
+    public function CheckTutorAvailability($date, $tutorId)
+    {
+    }
+
     public function create()
     {
-        
     }
 }
