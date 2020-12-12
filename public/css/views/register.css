@@ -47,6 +47,19 @@ body, html {
   background-size: cover;
 }
 
+.bgAppointment {
+  /* The image used */
+  background-image: url("/img/bg4.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .underlineHover:after {
     display: block;
     left: 0;
