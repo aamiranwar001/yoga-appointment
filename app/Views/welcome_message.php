@@ -207,8 +207,8 @@
 			<li class="menu-toggle">
 				<button onclick="toggleMenu();">&#9776;</button>
 			</li>
-			<li class="menu-item hidden"><a href="<?= base_url('appointments') ?>">Home</a></li>
-			<li class="menu-item hidden"><a href="<?= base_url('newAppointment') ?>">New Appointment</a>
+			<li class="menu-item hidden"><a href="<?= route_to('appointments') ?>">Home</a></li>
+			<li class="menu-item hidden"><a href="<?= route_to('newAppointment') ?>">New Appointment</a>
 			</li>
 		</ul>
 	</div>

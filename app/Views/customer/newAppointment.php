@@ -1,16 +1,35 @@
 <?php
+/***
+ * @var $tutors
+ */
     $errors = [];
     if (session()->has('errors'))
     {
-        $errors = session('errors');
+        $errors[] = session('errors');
     }
+    if (session()->has('error_message')) {
 ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>ERROR :(</strong> <?= session('error_message') ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+<?php }
+
+    if (session()->has('success')) {
+?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Congratulations!</strong> <?= session('success') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php } ?>
+
 <!doctype html>
 <html lang="en" >
   <head>
-      <style>
-      
-      </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,10 +48,11 @@
                     Create Appointment!
                 </div>
                 <div class="card-body">
-                    <form role="form" action="<?= base_url('createAppointment') ?>" method="POST">
+                    <form role="form" action="<?= route_to('appointments') ?>" method="POST">
                     <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">    
                                 <div class="form-group">
+                                    <label for="title">Title</label>
                                     <input type="text" name="title" id="title" class="form-control form-control-lg <?= array_key_exists('title', $errors) ? 'is-invalid' : '' ?>" placeholder="Title" value="<?= old('title') ?>">
                                     <?php if(array_key_exists('title', $errors)) : ?>
                                         <div class="invalid-feedback"><?= $errors['title'] ?></div>
@@ -42,10 +62,11 @@
 
                             <div class="col-xs-6 col-sm-6 col-md-6">    
                                 <div class="form-group">
+                                    <label for="tutor_id">Tutor</label>
                                     <select name="tutor_id" id="tutor_id" class="form-control form-control-lg <?= array_key_exists('tutor_id', $errors) ? 'is-invalid' : '' ?>">
-                                            <option value="1" selected>Ahmad</option>
-                                            <option value="2">Aamir</option>
-                                            <option value="3">Raza</option>
+                                        <?php foreach ($tutors as $tutor) : ?>
+                                            <option value="<?= $tutor->id ?>"><?= $tutor->first_name . ' ' . $tutor->last_name ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                     <?php if(array_key_exists('tutor_id', $errors)) : ?>
                                         <div class="invalid-feedback"><?= $errors['tutor_id'] ?></div>
@@ -56,6 +77,7 @@
 
 
                         <div class="form-group">
+                            <label for="description">Description</label>
                             <textarea rows="3" maxlength="512" name="description" id="description" 
                             class="form-control form-control-lg <?= array_key_exists('description', $errors) ? 'is-invalid' : '' ?>" 
                             placeholder="Write description..." value="<?= old('description') ?>"></textarea>
@@ -69,6 +91,7 @@
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
+                                    <label for="date">Date</label>
                                     <input type="date" name="date" id="date" class="form-control form-control-lg <?= array_key_exists('date', $errors) ? 'is-invalid' : '' ?>" placeholder="mm/dd/yyyy" value="<?= old('date') ?>">
                                     <?php if(array_key_exists('date', $errors)) : ?>
                                         <div class="invalid-feedback"><?= $errors['date'] ?></div>
@@ -77,6 +100,7 @@
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
+                                    <label for="time_slot">Time Slot</label>
                                     <select name="time_slot" id="time_slot" class="form-control form-control-lg <?= array_key_exists('time_slot', $errors) ? 'is-invalid' : '' ?>">
                                         <option value="1" selected>09:00am-10:00am</option>
                                         <option value="2">10:00am-11:00am</option>

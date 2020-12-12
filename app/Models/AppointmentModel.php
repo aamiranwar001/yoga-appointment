@@ -15,13 +15,12 @@ class AppointmentModel extends Model
 
     protected $allowedFields = ['id', 'tutor_id', 'student_id', 'title', 'description', 'date', 'time_slot', 'status'];
 
-    public function getAppointmentRules()
+    public function getRules()
     {
         return [
             'tutor_id' => 'required',
-            'student_id' => '',
             'title' => 'required|alpha_space|min_length[2]',
-            'description' => '',
+            'description' => 'max_length[512]',
             'date' => 'required',
             'time_slot' => 'required',
         ];
