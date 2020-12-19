@@ -31,6 +31,22 @@ class AppointmentController extends BaseController
         return view('customer/newAppointment', ['tutors' => $tutors->getResult()]);
     }
 
+    public function getAppointments()
+    {
+        $startDate = strtotime($this->request->getGet('start_date'));
+        $endDate = strtotime($this->request->getGet('end_date'));
+        $operatorID = $this->request->getGet('operator_id');
+        $operatorKey = $this->request->getGet('operator_key');
+
+        $appointmentModel = new AppointmentModel();
+        return $appointmentModel
+            ->where('date >=', $startDate)
+            ->where('date <=', $endDate)
+            ->where($operatorKey, $operatorID)
+            ->get()
+            ->getResult();
+    }
+
     public function store()
     {
         // var_dump($this->request->getPost());
