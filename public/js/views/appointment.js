@@ -469,7 +469,7 @@
     function setSchedules() {
         cal.clear();
         generateSchedule(cal.getViewName(), cal.getDateRangeStart(), cal.getDateRangeEnd());
-        cal.createSchedules(ScheduleList);
+        // cal.createSchedules(ScheduleList);
 
         refreshScheduleVisibility();
     }
@@ -489,11 +489,6 @@
 
     function getDataAction(target) {
         return target.dataset ? target.dataset.action : target.getAttribute('data-action');
-    }
-
-    function generateSchedule(viewName, renderStart, renderEnd) {
-        ScheduleList = [];
-        //generateScheduleApi(calendar, renderStart, renderEnd);
     }
     
     function CalendarInfo() {
@@ -543,6 +538,124 @@
         calendarList.innerHTML = html.join('\n');
     }
 
+    function generateSchedule(viewName, renderStart, renderEnd){
+        console.log('generateSchedule();');
+        if(cal){
+            var renderStartDate = cal._renderRange.start._date.toLocaleDateString();
+            var renderEndDate   = cal._renderRange.end._date.toLocaleDateString();
+
+            ScheduleList= [];
+            $.ajax({
+                url: 'http://localhost:8080/appointments/interval',
+                type: 'GET',
+                data: { start_date: renderStartDate, end_date: renderEndDate, operator_key: 'student_id', operator_id: 1},
+                success: function (data) {
+                    var schedules = JSON.parse(data);
+                    
+                    console.log('Data: ' + data);
+
+                    schedules.forEach(function(schedule){
+                        generateScheduleObj(CalendarList[0], schedule, renderStart, renderEnd);
+                    });
+
+                    refreshScheduleVisibility();
+                },
+                error: function (ex) {
+                    console.log('Error: ' + ex);
+                }
+            });
+        }
+    }
+
+    function ScheduleInfo() {
+        this.id = null;
+        this.calendarId = null;
+    
+        this.title = null;
+        this.body = null;
+        this.isAllday = false;
+        this.start = null;
+        this.end = null;
+        this.category = '';
+        this.dueDateClass = '';
+    
+        this.color = null;
+        this.bgColor = null;
+        this.dragBgColor = null;
+        this.borderColor = null;
+        this.customStyle = '';
+    
+        this.isFocused = false;
+        this.isPending = false;
+        this.isVisible = true;
+        this.isReadOnly = false;
+        this.goingDuration = 0;
+        this.comingDuration = 0;
+        this.recurrenceRule = '';
+        this.state = '';
+    
+        this.raw = {
+            memo: '',
+            hasToOrCc: false,
+            hasRecurrenceRule: false,
+            location: null,
+            class: 'public', // or 'private'
+            creator: {
+                name: '',
+                avatar: '',
+                company: '',
+                email: '',
+                phone: ''
+            }
+        };
+    }
+
+    function generateTime(schedule, renderStart, renderEnd) {
+        var startDate = moment(renderStart.getTime())
+        var endDate = moment(renderEnd.getTime());
+        var diffDate = endDate.diff(startDate, 'days');
+    
+        schedule.category = 'time';
+        
+    
+        startDate.add(1, 'days');
+        startDate.hours(15);
+        startDate.minutes(15);
+        schedule.start = startDate.toDate();
+    
+        endDate = moment(startDate);
+        
+        schedule.end = endDate
+            .add(2, 'hour')
+            .toDate();
+    
+    }
+    
+
+    function generateScheduleObj(calendar, scheduleObj,renderStart,renderEnd) {
+        var schedule = new ScheduleInfo();
+    
+        schedule.id = scheduleObj.id;
+        schedule.calendarId = calendar.id;
+    
+        schedule.title = scheduleObj.title;
+        schedule.body = scheduleObj.description;
+        schedule.isReadOnly = true;
+        generateTime(schedule, renderStart, renderEnd);
+    
+        schedule.isPrivate = true;
+        schedule.recurrenceRule = 'No Rule';
+        schedule.state = scheduleObj.status == 'pending' ? 'Pending' : 'Approved';
+        schedule.color = calendar.color;
+        schedule.bgColor = calendar.bgColor;
+        schedule.dragBgColor = calendar.dragBgColor;
+        schedule.borderColor = calendar.borderColor;
+    
+    
+        ScheduleList.push(schedule);
+    }
+    
+
     window.cal = cal;
 
     setDropdownCalendarType();
@@ -553,11 +666,3 @@
     setCalendar();
 })(window, tui.Calendar);
 
-// set calendars
-(function() {
-    
-})();
-
-(function() {
-    
-})();

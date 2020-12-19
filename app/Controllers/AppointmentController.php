@@ -33,24 +33,25 @@ class AppointmentController extends BaseController
 
     public function getAppointments()
     {
+        
         $startDate = strtotime($this->request->getGet('start_date'));
         $endDate = strtotime($this->request->getGet('end_date'));
-        $operatorID = $this->request->getGet('operator_id');
+        $operatorID = (int)$this->request->getGet('operator_id');
         $operatorKey = $this->request->getGet('operator_key');
 
         $appointmentModel = new AppointmentModel();
-        return $appointmentModel
+        $result = $appointmentModel
             ->where('date >=', $startDate)
             ->where('date <=', $endDate)
             ->where($operatorKey, $operatorID)
             ->get()
             ->getResult();
+
+        return json_encode($result);
     }
 
     public function store()
     {
-        // var_dump($this->request->getPost());
-        // die();
         $appointmentModel = new AppointmentModel();
         $rules = $appointmentModel->getRules();
         $appointmentModel->setValidationRules($rules);
@@ -71,21 +72,21 @@ class AppointmentController extends BaseController
             ];
 
             if (! $this->isTutorAvailable($tutorId, $date, $timeSlot)) {
-                echo 'The tutor is not available for the selected time slot.';
-                //return redirect()->back()->with('error_message', 'The tutor is not available for the selected time slot.');
+                //echo 'The tutor is not available for the selected time slot.'; die();
+                return redirect()->back()->with('error_message', 'The tutor is not available for the selected time slot.');
             }
 
             if (!$appointmentModel->save($data)) {
-                echo $appointmentModel->errors();
-                //return redirect()->back()->withInput()->with('errors', $appointmentModel->errors());
+                //echo 'Error! '. json_encode($appointmentModel->errors()); die();
+                return redirect()->back()->withInput()->with('errors', $appointmentModel->errors());
             }
 
-            echo 'Appointment has been created successfully. ';
-            //return redirect()->back()->with('success', 'Appointment has been created successfully. :)');
+            //echo 'Appointment has been created successfully. '; die();
+            return redirect()->back()->with('success', 'Appointment has been created successfully. :)');
 
         } catch (\ReflectionException $e) {
-            echo $e->getMessage();
-            //return redirect()->back()->withInput()->with('errors', $e->getMessage());
+            //echo $e->getMessage();
+            return redirect()->back()->withInput()->with('errors', $e->getMessage());
         }
     }
 

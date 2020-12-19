@@ -105,7 +105,7 @@
     </div> -->
 </div>
 
-<script src="<?= base_url('js/jquery-3.5.1.slim.min.js') ?>" > </script>
+<script src="<?= base_url('js/jquery-3.5.2.min.js') ?>" > </script>
 <script src="<?= base_url('js/popper.min.js') ?>" ></script>
 <script src="<?= base_url('js/bootstrap.min.js') ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>

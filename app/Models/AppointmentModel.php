@@ -19,7 +19,7 @@ class AppointmentModel extends Model
     {
         return [
             'tutor_id' => 'required',
-            'title' => 'required|alpha_space|min_length[2]',
+            'title' => 'required|min_length[2]',
             'description' => 'max_length[512]',
             'date' => 'required',
             'time_slot' => 'required',
