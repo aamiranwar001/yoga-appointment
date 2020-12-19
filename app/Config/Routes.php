@@ -40,6 +40,7 @@ $routes->get('/logout', 'AuthController::logout', ['as' => 'logout']);
 $routes->get('/appointments', 'AppointmentController::index', ['as' => 'appointments']);
 $routes->get('/appointments/create', 'AppointmentController::create', ['as' => 'newAppointment']);
 $routes->post('/appointments', 'AppointmentController::store');
+$routes->get('/appointments/interval', 'AppointmentController::getAppointments', ['as' => 'appointments.interval']);
 
 
 /**
