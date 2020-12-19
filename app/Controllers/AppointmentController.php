@@ -33,6 +33,8 @@ class AppointmentController extends BaseController
 
     public function store()
     {
+        // var_dump($this->request->getPost());
+        // die();
         $appointmentModel = new AppointmentModel();
         $rules = $appointmentModel->getRules();
         $appointmentModel->setValidationRules($rules);
@@ -53,17 +55,21 @@ class AppointmentController extends BaseController
             ];
 
             if (! $this->isTutorAvailable($tutorId, $date, $timeSlot)) {
-                return redirect()->back()->with('error_message', 'The tutor is not available for the selected time slot.');
+                echo 'The tutor is not available for the selected time slot.';
+                //return redirect()->back()->with('error_message', 'The tutor is not available for the selected time slot.');
             }
 
             if (!$appointmentModel->save($data)) {
-                return redirect()->back()->withInput()->with('errors', $appointmentModel->errors());
+                echo $appointmentModel->errors();
+                //return redirect()->back()->withInput()->with('errors', $appointmentModel->errors());
             }
 
-            return redirect()->route('newAppointment')->with('success', 'Appointment has been created successfully. :)');
+            echo 'Appointment has been created successfully. ';
+            //return redirect()->back()->with('success', 'Appointment has been created successfully. :)');
 
         } catch (\ReflectionException $e) {
-            return redirect()->back()->withInput()->with('errors', $e->getMessage());
+            echo $e->getMessage();
+            //return redirect()->back()->withInput()->with('errors', $e->getMessage());
         }
     }
 
