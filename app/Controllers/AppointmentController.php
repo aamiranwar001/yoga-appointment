@@ -33,7 +33,6 @@ class AppointmentController extends BaseController
 
     public function getAppointments()
     {
-        
         $startDate = strtotime($this->request->getGet('start_date'));
         $endDate = strtotime($this->request->getGet('end_date'));
         $operatorID = (int)$this->request->getGet('operator_id');

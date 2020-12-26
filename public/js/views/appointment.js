@@ -13,6 +13,8 @@
     var CalendarList = [];
     var ScheduleList = [];
 
+    let slotHours = [-1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
 
     var templates = {
         popupIsAllDay: function() {
@@ -83,59 +85,8 @@
     });
 
     // event handlers
-    cal.on({
-        'clickMore': function(e) {
-            console.log('clickMore', e);
-        },
-        'clickSchedule': function(e) {
-            console.log('clickSchedule', e);
-        },
-        'clickDayname': function(date) {
-            console.log('clickDayname', date);
-        },
-        'beforeCreateSchedule': function(e) {
-            console.log('beforeCreateSchedule', e);
-            saveNewSchedule(e);
-        },
-        'beforeUpdateSchedule': function(e) {
-            var schedule = e.schedule;
-            var changes = e.changes;
-
-            console.log('beforeUpdateSchedule', e);
-
-            if (changes && !changes.isAllDay && schedule.category === 'allday') {
-                changes.category = 'time';
-            }
-
-            cal.updateSchedule(schedule.id, schedule.calendarId, changes);
-            refreshScheduleVisibility();
-        },
-        'beforeDeleteSchedule': function(e) {
-            console.log('beforeDeleteSchedule', e);
-            cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
-        },
-        'afterRenderSchedule': function(e) {
-            var schedule = e.schedule;
-            // var element = cal.getElement(schedule.id, schedule.calendarId);
-            // console.log('afterRenderSchedule', element);
-        },
-        'clickTimezonesCollapseBtn': function(timezonesCollapsed) {
-            console.log('timezonesCollapsed', timezonesCollapsed);
-
-            if (timezonesCollapsed) {
-                cal.setTheme({
-                    'week.daygridLeft.width': '77px',
-                    'week.timegridLeft.width': '77px'
-                });
-            } else {
-                cal.setTheme({
-                    'week.daygridLeft.width': '60px',
-                    'week.timegridLeft.width': '60px'
-                });
-            }
-
-            return true;
-        }
+    cal.on('clickSchedule', function (event) {
+        let schedule = event.schedule;
     });
 
     /**
@@ -191,8 +142,6 @@
         var options = cal.getOptions();
         var viewName = '';
 
-        console.log(target);
-        console.log(action);
         switch (action) {
             case 'toggle-daily':
                 viewName = 'day';
@@ -266,6 +215,7 @@
         setSchedules();
     }
 
+    //TODO: Remove after implementation
     function onNewSchedule() {
         var title = $('#new-schedule-title').val();
         var location = $('#new-schedule-location').val();
@@ -468,8 +418,9 @@
 
     function setSchedules() {
         cal.clear();
-        generateSchedule(cal.getViewName(), cal.getDateRangeStart(), cal.getDateRangeEnd());
-        // cal.createSchedules(ScheduleList);
+        generateSchedule(cal.getViewName(), cal.getDateRangeStart(), cal.getDateRangeEnd(), function() {
+            cal.createSchedules(ScheduleList);
+        });
 
         refreshScheduleVisibility();
     }
@@ -538,9 +489,8 @@
         calendarList.innerHTML = html.join('\n');
     }
 
-    function generateSchedule(viewName, renderStart, renderEnd){
-        console.log('generateSchedule();');
-        if(cal){
+    function generateSchedule(viewName, renderStart, renderEnd, successCallback){
+        if(cal) {
             var renderStartDate = cal._renderRange.start._date.toLocaleDateString();
             var renderEndDate   = cal._renderRange.end._date.toLocaleDateString();
 
@@ -550,13 +500,13 @@
                 type: 'GET',
                 data: { start_date: renderStartDate, end_date: renderEndDate, operator_key: 'student_id', operator_id: 1},
                 success: function (data) {
-                    var schedules = JSON.parse(data);
-                    
-                    console.log('Data: ' + data);
+                    const appointments = JSON.parse(data);
 
-                    schedules.forEach(function(schedule){
-                        generateScheduleObj(CalendarList[0], schedule, renderStart, renderEnd);
+                    appointments.forEach(function(appointment){
+                        generateScheduleObj(CalendarList[0], appointment);
                     });
+
+                    successCallback();
 
                     refreshScheduleVisibility();
                 },
@@ -610,48 +560,39 @@
         };
     }
 
-    function generateTime(schedule, renderStart, renderEnd) {
-        var startDate = moment(renderStart.getTime())
-        var endDate = moment(renderEnd.getTime());
-        var diffDate = endDate.diff(startDate, 'days');
-    
-        schedule.category = 'time';
-        
-    
-        startDate.add(1, 'days');
-        startDate.hours(15);
-        startDate.minutes(15);
-        schedule.start = startDate.toDate();
-    
-        endDate = moment(startDate);
-        
-        schedule.end = endDate
-            .add(2, 'hour')
-            .toDate();
-    
-    }
-    
+    function generateTime(schedule, appointment) {
 
-    function generateScheduleObj(calendar, scheduleObj,renderStart,renderEnd) {
-        var schedule = new ScheduleInfo();
-    
-        schedule.id = scheduleObj.id;
+        let startHour = slotHours[appointment.time_slot];
+        let endHour = startHour + 1;
+
+        let startDate = moment.unix(appointment.date).set('hour', startHour).set('minute', 0).set('second', 0);
+        let endDate = moment.unix(appointment.date).set('hour', endHour).set('minute', 0).set('second', 0);
+
+        schedule.category = 'time';
+        schedule.start = startDate.toDate();
+        schedule.end = endDate.toDate();
+    }
+
+    function generateScheduleObj(calendar, appointment) {
+        let schedule = new ScheduleInfo();
+
+        schedule.id = appointment.id;
         schedule.calendarId = calendar.id;
     
-        schedule.title = scheduleObj.title;
-        schedule.body = scheduleObj.description;
+        schedule.title = appointment.title;
+        schedule.body = appointment.description;
         schedule.isReadOnly = true;
-        generateTime(schedule, renderStart, renderEnd);
-    
+
+        generateTime(schedule, appointment);
+
         schedule.isPrivate = true;
         schedule.recurrenceRule = 'No Rule';
-        schedule.state = scheduleObj.status == 'pending' ? 'Pending' : 'Approved';
+        schedule.state = appointment.status == 'pending' ? 'Pending' : 'Approved';
         schedule.color = calendar.color;
         schedule.bgColor = calendar.bgColor;
         schedule.dragBgColor = calendar.dragBgColor;
         schedule.borderColor = calendar.borderColor;
-    
-    
+
         ScheduleList.push(schedule);
     }
     
