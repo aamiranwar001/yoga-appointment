@@ -30,7 +30,7 @@
 <div class="container">
     <div id="lnb">
         <div class="lnb-new-schedule">
-            <button id="btn-new-schedule" type="button" class="btn btn-default btn-block lnb-new-schedule-btn" data-toggle="modal">
+            <button id="btn-new-schedule" onclick="document.location='<?= route_to('newAppointment') ?>'" type="button" class="btn btn-default btn-block lnb-new-schedule-btn" data-toggle="modal">
                 New schedule</button>
         </div>
         <div id="lnb-calendars" class="lnb-calendars">
