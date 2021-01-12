@@ -37,9 +37,22 @@
     <link rel="stylesheet" href="<?= base_url('css/views/register.css') ?>" >
     <link rel="stylesheet" href="<?= base_url('css/bootstrap.min.css') ?>" >
 
+
     <title>New Appointment</title>
   </head>
-  <body class="bgAppointment"
+  <body class="bgAppointment">
+  <div class="menu">
+      <header>
+		<ul>
+			<li class="menu-toggle">
+				<button onclick="toggleMenu();">&#9776;</button>
+			</li>
+			<li class="menu-item hidden"><a href="<?= route_to('home') ?>">Home</a></li>
+			
+        </ul>
+      </header>
+	</div>
+
 <div class="container-fluid h-100">
     <div class="row justify-content-center align-items-center h-100">
         <div class="col col-sm-10 col-md-8 col-lg-6 col-xl-6">
