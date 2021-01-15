@@ -6,12 +6,12 @@
 /* global findCalendar, CalendarList, ScheduleList, generateSchedule */
 
 (function(window, Calendar) {
-    var cal, resizeThrottled;
-    var useCreationPopup = false;
-    var useDetailPopup = true;
-    var datePicker, selectedCalendar;
-    var CalendarList = [];
-    var ScheduleList = [];
+    let cal, resizeThrottled;
+    let useCreationPopup = false;
+    let useDetailPopup = true;
+    let datePicker, selectedCalendar;
+    let CalendarList = [];
+    let ScheduleList = [];
 
     let slotHours = [-1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
@@ -405,9 +405,9 @@
 
             ScheduleList= [];
             $.ajax({
-                url: 'http://localhost:8080/appointments/interval',
+                url: appointmentsUrl,
                 type: 'GET',
-                data: { start_date: renderStartDate, end_date: renderEndDate, operator_key: 'student_id', operator_id: 1},
+                data: { start_date: renderStartDate, end_date: renderEndDate, operator_key: operatorKey, operator_id: operatorId},
                 success: function (data) {
                     const appointments = JSON.parse(data);
 
@@ -504,7 +504,21 @@
 
         ScheduleList.push(schedule);
     }
-    
+
+    function updateStatus(appointmentId, status) {
+        $.ajax({
+            url: updateStatusUrl,
+            type: 'POST',
+            data: { appointment_id: appointmentId, status: status },
+            success: function (data) {
+                $('.toast .toast-body').text(data.message);
+                $('.toast').toast('show');
+            },
+            error: function (ex) {
+                console.log('Error: ' + ex);
+            }
+        });
+    }
 
     window.cal = cal;
 

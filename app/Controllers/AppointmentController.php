@@ -89,6 +89,19 @@ class AppointmentController extends BaseController
         }
     }
 
+    public function updateStatus() {
+        $appointmentId = $this->request->getPost('appointment_id');
+        $status = $this->request->getPost('status');
+
+        $appointmentModel = new AppointmentModel();
+        $result = $appointmentModel->where('id', $appointmentId)->update(['status' => $status]);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Status updated successfully.']);
+        } else {
+            return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal server error, please try later.']);
+        }
+    }
+
     private function isTutorAvailable($tutorId, $date, $timeSlot)
     {
         $appointmentModel = new AppointmentModel();

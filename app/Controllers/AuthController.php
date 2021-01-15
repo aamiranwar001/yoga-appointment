@@ -50,7 +50,8 @@ class AuthController extends BaseController
         $this->session->set('userData', [
             'id' => $user['id'],
             'name' => $user['first_name'] . ' ' . $user['last_name'],
-            'email' => $user['email']
+            'email' => $user['email'],
+            'role' => $user['role_name']
         ]);
 
         if ($this->session->has('redirect'))

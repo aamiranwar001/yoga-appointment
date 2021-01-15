@@ -1,3 +1,7 @@
+<?php
+    $role = session('userData')['role'];
+    $userId = session('userData')['id'];
+?>
 <!doctype html>
 <html lang="en" >
 <head>
@@ -13,6 +17,18 @@
     <title>Yoga Appointments | Main Page</title>
 </head>
 <body>
+
+<div class="toast" id="toast-alert" data-delay="5000" style="z-index: 999; position: absolute; top: 10px; right: 10px;">
+    <div class="toast-header">
+        <strong class="mr-auto"><i class="fa fa-grav"></i>Alert</strong>
+        <small>Just Now</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+    </div>
+</div>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="<?= route_to('home') ?>">Yoga Appointments</a>
@@ -99,11 +115,14 @@
         </div>
         <div id="calendar"></div>
     </div>
-
-    <!-- <div id="calendar" class="vh-90">
-
-    </div> -->
 </div>
+
+<script>
+    let operatorKey = "<?= $role == 'tutor' ? 'tutor_id' : 'student_id' ?>"
+    let operatorId = "<?= $userId ?>"
+    const appointmentsUrl = "<?= base_url('appointments/interval') ?>"
+    const updateStatusUrl = "<?= base_url('appointment/status') ?>"
+</script>
 
 <script src="<?= base_url('js/jquery-3.5.2.min.js') ?>" > </script>
 <script src="<?= base_url('js/popper.min.js') ?>" ></script>
@@ -114,6 +133,7 @@
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
 <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 
+<script src="<?= base_url('js/store.js') ?>"></script>
 <script src="<?= base_url('js/views/appointment.js') ?>"></script>
 
 </body>
