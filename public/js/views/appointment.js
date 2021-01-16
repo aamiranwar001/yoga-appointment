@@ -8,7 +8,7 @@
 (function(window, Calendar) {
     let cal, resizeThrottled;
     let useCreationPopup = false;
-    let useDetailPopup = true;
+    let useDetailPopup = false;
     let datePicker, selectedCalendar;
     let CalendarList = [];
     let ScheduleList = [];
@@ -40,38 +40,18 @@
     // event handlers
     cal.on('clickSchedule', function (event) {
         let schedule = event.schedule;
+        var endFormat = 'hh:mm a';
+        var dateTime= (moment(schedule.start._date).format('DD-MMM-YYYY hh:mm a') + ' - ' + moment(schedule.end._date).format(endFormat));
+
+        $('#scheduleModal #scheduleId').val(schedule.id);
+        $('#scheduleModal #title').text(schedule.title);
+        $('#scheduleModal #dateTime').text(dateTime);
+        $('#scheduleModal #description').text(schedule.body);
+        $('#scheduleModal #status').text(schedule.state);
+
+
+        $('#scheduleModal').modal('show');
     });
-
-    /**
-     * Get time template for time and all-day
-     * @param {Schedule} schedule - schedule
-     * @param {boolean} isAllDay - isAllDay or hasMultiDates
-     * @returns {string}
-     */
-    function getTimeTemplate(schedule, isAllDay) {
-        var html = [];
-        var start = moment(schedule.start.toUTCString());
-        if (!isAllDay) {
-            html.push('<strong>' + start.format('HH:mm') + '</strong> ');
-        }
-        if (schedule.isPrivate) {
-            html.push('<span class="calendar-font-icon ic-lock-b"></span>');
-            html.push(' Private');
-        } else {
-            if (schedule.isReadOnly) {
-                html.push('<span class="calendar-font-icon ic-readonly-b"></span>');
-            } else if (schedule.recurrenceRule) {
-                html.push('<span class="calendar-font-icon ic-repeat-b"></span>');
-            } else if (schedule.attendees.length) {
-                html.push('<span class="calendar-font-icon ic-user-b"></span>');
-            } else if (schedule.location) {
-                html.push('<span class="calendar-font-icon ic-location-b"></span>');
-            }
-            html.push(' ' + schedule.title);
-        }
-
-        return html.join('');
-    }
 
     function findCalendar(id) {
         var found;
@@ -505,21 +485,6 @@
         ScheduleList.push(schedule);
     }
 
-    function updateStatus(appointmentId, status) {
-        $.ajax({
-            url: updateStatusUrl,
-            type: 'POST',
-            data: { appointment_id: appointmentId, status: status },
-            success: function (data) {
-                $('.toast .toast-body').text(data.message);
-                $('.toast').toast('show');
-            },
-            error: function (ex) {
-                console.log('Error: ' + ex);
-            }
-        });
-    }
-
     window.cal = cal;
 
     setDropdownCalendarType();
@@ -530,3 +495,27 @@
     setCalendar();
 })(window, tui.Calendar);
 
+
+function reject(){
+    var appointmentId = $('#scheduleModal #scheduleId').val();
+    updateStatus(appointmentId, 'cancelled');
+}
+function approve(){
+    var appointmentId = $('#scheduleModal #scheduleId').val();
+    updateStatus(appointmentId, 'done');
+}
+
+function updateStatus(appointmentId, status) {
+    $.ajax({
+        url: updateStatusUrl,
+        type: 'POST',
+        data: { appointment_id: appointmentId, status: status },
+        success: function (data) {
+            $('.toast .toast-body').text(data.message);
+            $('.toast').toast('show');
+        },
+        error: function (ex) {
+            console.log('Error: ' + ex);
+        }
+    });
+}
