@@ -46,8 +46,6 @@ class AppointmentController extends BaseController
             ->where('date <=', $endDate)
             ->get()
             ->getResult();
-            
-            return json_encode($result);
         }
         else{
             $result = $appointmentModel
@@ -56,9 +54,9 @@ class AppointmentController extends BaseController
                 ->where($operatorKey, $operatorID)
                 ->get()
                 ->getResult();
-                
-            return json_encode($result);
         }
+                
+        return json_encode($result);
     }
 
     public function store()
@@ -106,9 +104,9 @@ class AppointmentController extends BaseController
         $status = $this->request->getPost('status');
 
         $appointmentModel = new AppointmentModel();
-        $result = $appointmentModel->where('id', $appointmentId)->update(['status' => $status]);
+        $result = $appointmentModel->update($appointmentId, ['status' => $status]);
         if ($result) {
-            return $this->response->setStatusCode(200)->setJSON(['message' => 'Status updated successfully.']);
+            return $this->response->setStatusCode(200)->setJSON(['id'=> $appointmentId, 'status' => $status, 'message' => 'Status updated successfully.']);
         } else {
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal server error, please try later.']);
         }

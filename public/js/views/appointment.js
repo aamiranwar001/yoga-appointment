@@ -5,13 +5,14 @@
 /* global moment, tui, chance */
 /* global findCalendar, CalendarList, ScheduleList, generateSchedule */
 
-(function(window, Calendar) {
+let ScheduleList = [];
+var myCalendar = (function(window, Calendar) {
     let cal, resizeThrottled;
     let useCreationPopup = false;
     let useDetailPopup = false;
     let datePicker, selectedCalendar;
     let CalendarList = [];
-    let ScheduleList = [];
+    ScheduleList = [];
 
     let slotHours = [-1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
@@ -47,10 +48,13 @@
         $('#scheduleModal #title').text(schedule.title);
         $('#scheduleModal #dateTime').text(dateTime);
         $('#scheduleModal #description').text(schedule.body);
-        $('#scheduleModal #status').text(schedule.state);
 
-        if(schedule.state == "pending") $('#scheduleModal #status').addClass('orange');
-        else if(schedule.state == "cancelled") $('#scheduleModal #status').addClass('red');
+        var scheduleObj = ScheduleList.find(sch => sch.id == schedule.id);
+        $('#scheduleModal #status').text(scheduleObj.state.toUpperCase());
+
+        $('#scheduleModal #status').removeClass();
+        if(scheduleObj.state == "pending") $('#scheduleModal #status').addClass('orange');
+        else if(scheduleObj.state == "cancelled") $('#scheduleModal #status').addClass('red');
         else $('#scheduleModal #status').addClass('green');
         
 
@@ -522,6 +526,10 @@ function updateStatus(appointmentId, status) {
         success: function (data) {
             $('.toast .toast-body').text(data.message);
             $('.toast').toast('show');
+            $('#scheduleModal').modal('hide');
+        
+            var schedule = ScheduleList.find(sch => sch.id == data.id);
+            schedule.state = data.status;
         },
         error: function (ex) {
             console.log('Error: ' + ex);
