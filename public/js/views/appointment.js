@@ -49,7 +49,16 @@
         $('#scheduleModal #description').text(schedule.body);
         $('#scheduleModal #status').text(schedule.state);
 
+        if(schedule.state == "pending") $('#scheduleModal #status').addClass('orange');
+        else if(schedule.state == "cancelled") $('#scheduleModal #status').addClass('red');
+        else $('#scheduleModal #status').addClass('green');
+        
 
+        // hide accept/reject buttons for student
+        if(operatorKey === 'student_id'){
+            $('#approveBtn').hide();
+            $('#rejectBtn').hide();
+        }
         $('#scheduleModal').modal('show');
     });
 
@@ -498,11 +507,11 @@
 
 function reject(){
     var appointmentId = $('#scheduleModal #scheduleId').val();
-    updateStatus(appointmentId, 'cancelled');
+    updateStatus(appointmentId, status.cancelled);
 }
 function approve(){
     var appointmentId = $('#scheduleModal #scheduleId').val();
-    updateStatus(appointmentId, 'done');
+    updateStatus(appointmentId, status.done);
 }
 
 function updateStatus(appointmentId, status) {

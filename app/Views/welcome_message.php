@@ -209,6 +209,7 @@
 			</li>
 			<li class="menu-item hidden"><a href="<?= route_to('appointments') ?>">Appointments</a></li>
 			<li class="menu-item hidden"><a href="<?= route_to('newAppointment') ?>">Book Appointment</a>
+			<li class="menu-item hidden"><a href="<?= route_to('logout') ?>">Logout</a>
 			</li>
 		</ul>
 	</div>

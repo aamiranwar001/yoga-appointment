@@ -11,15 +11,27 @@ body {
   border-color: #ddd;
 }
 
-.btn:hover {
+/* .btn:hover {
   border: solid 1px #bbb;
   background-color: #fff;
-}
+} */
 
 .btn:active {
   background-color: #f9f9f9;
   border: solid 1px #bbb;
   outline: none;
+}
+
+.orange{
+  color: #d95614;
+}
+
+.green{
+  color: green;
+}
+
+.red{
+  color: red;
 }
 
 .btn:disabled {

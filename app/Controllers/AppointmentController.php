@@ -39,14 +39,26 @@ class AppointmentController extends BaseController
         $operatorKey = $this->request->getGet('operator_key');
 
         $appointmentModel = new AppointmentModel();
-        $result = $appointmentModel
+
+        if($operatorKey == 'admin'){
+            $result = $appointmentModel
             ->where('date >=', $startDate)
             ->where('date <=', $endDate)
-            ->where($operatorKey, $operatorID)
             ->get()
             ->getResult();
-
-        return json_encode($result);
+            
+            return json_encode($result);
+        }
+        else{
+            $result = $appointmentModel
+                ->where('date >=', $startDate)
+                ->where('date <=', $endDate)
+                ->where($operatorKey, $operatorID)
+                ->get()
+                ->getResult();
+                
+            return json_encode($result);
+        }
     }
 
     public function store()

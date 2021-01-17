@@ -40,6 +40,12 @@
             <li class="nav-item active">
                 <a class="nav-link" href="<?= route_to('home') ?>">Home</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= route_to('newAppointment') ?>">Book Appointment</a>
+            </li>
+            <li class="nav-item">
+			    <a class="nav-link" href="<?= route_to('logout') ?>">Logout</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -137,7 +143,7 @@
             </li>
             
             <li>
-                <b>Status: </b> <span id="status"> </span>
+                <div id="statusDiv"><b>Status: </b> <span id="status"> </span></div>
             </li>
             <li>
                 <b>Descripton: </b> <span id="description"> </span>
@@ -145,8 +151,8 @@
         </ul>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" onclick="reject()">Reject</button>
-        <button type="button" class="btn btn-success" onclick="approve()">Approve</button>
+        <button type="button" id="rejectBtn" class="btn btn-danger" onclick="reject()">Reject</button>
+        <button type="button" id="approveBtn" class="btn btn-success" onclick="approve()">Approve</button>
       </div>
     </div>
   </div>
@@ -154,7 +160,7 @@
 </div>
 
 <script>
-    let operatorKey = "<?= $role == 'tutor' ? 'tutor_id' : 'student_id' ?>"
+    let operatorKey = "<?= $role == 'tutor' ? 'tutor_id' : ($role == 'admin'? 'admin' : 'student_id') ?>"
     let operatorId = "<?= $userId ?>"
     const appointmentsUrl = "<?= base_url('appointments/interval') ?>"
     const updateStatusUrl = "<?= base_url('appointment/status') ?>"
