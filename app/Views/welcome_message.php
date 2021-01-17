@@ -207,13 +207,12 @@
 			<li class="menu-toggle">
 				<button onclick="toggleMenu();">&#9776;</button>
 			</li>
-            <?php if (session('userData')[0]->role == 'admin') { ?>
+            <?php if (session('userData')['role'] == 'admin') { ?>
                 <li class="menu-item hidden"><a href="<?= route_to('registration') ?>">Register User</a></li>
             <?php } ?>
 			<li class="menu-item hidden"><a href="<?= route_to('appointments') ?>">Appointments</a></li>
-			<li class="menu-item hidden"><a href="<?= route_to('newAppointment') ?>">Book Appointment</a>
-			<li class="menu-item hidden"><a href="<?= route_to('logout') ?>">Logout</a>
-			</li>
+			<li class="menu-item hidden"><a href="<?= route_to('newAppointment') ?>">Book Appointment</a></li>
+			<li class="menu-item hidden"><a href="<?= route_to('logout') ?>">Logout</a></li>
 		</ul>
 	</div>
 

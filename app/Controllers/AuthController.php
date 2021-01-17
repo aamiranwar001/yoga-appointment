@@ -6,6 +6,7 @@ use App\Models\UserModel;
 
 class AuthController extends BaseController
 {
+    // go to login page, if already not logged in (for customer)
     public function login()
     {
         if ($this->session->isLoggedIn) {
@@ -15,6 +16,8 @@ class AuthController extends BaseController
         return view('auth/login');
     }
 
+
+    // go to signup page (for customer)
     public function register()
     {
         if ($this->session->isLoggedIn) {
@@ -24,15 +27,17 @@ class AuthController extends BaseController
         return view('auth/register');
     }
 
+    // go to SignUp page for admin (Admin can create both customer and tutor accounts)
     public function registration()
     {
         if ($this->session->isLoggedIn) {
-            return redirect()->route('home');
+            return view('tutor/register');
         }
 
-        return view('tutor/register');
+        return redirect()->to('login');
     }
 
+    // when user try to get logged-in
     public function attemptLogin()
     {
         $userModel = new UserModel();
@@ -75,6 +80,8 @@ class AuthController extends BaseController
         }
     }
 
+
+    // when user try to create new account (for customer)
     public function attemptRegister()
     {
         $userModel = new UserModel();
@@ -89,6 +96,7 @@ class AuthController extends BaseController
         return redirect()->to('login')->with('success', 'Successfully registered. Please login to continue :)');
     }
 
+    // when user try to create new account (for admin)
     public function attemptRegisterUser()
     {
         $userModel = new UserModel();
@@ -103,6 +111,8 @@ class AuthController extends BaseController
         return redirect()->back()->with('success', 'Successfully registered. Please login to continue :)');
     }
 
+
+    // when user try to Logout
     public function logout()
     {
         $this->session->remove(['isLoggedIn', 'userData']);

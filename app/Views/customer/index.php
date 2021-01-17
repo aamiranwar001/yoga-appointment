@@ -40,6 +40,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="<?= route_to('home') ?>">Home</a>
             </li>
+            <?php if (session('userData')['role'] == 'admin') { ?>
+                <li class="nav-item active"><a class="nav-link" href="<?= route_to('registration') ?>">Register User</a></li>
+            <?php } ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= route_to('newAppointment') ?>">Book Appointment</a>
             </li>

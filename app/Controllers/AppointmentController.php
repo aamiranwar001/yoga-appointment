@@ -8,19 +8,22 @@ use App\Models\UserModel;
 
 class AppointmentController extends BaseController
 {
+
+    //  if user already logged in - redirect to calndar page
     public function index()
     {
         if ($this->session->isLoggedIn) {
-            return redirect()->route('home');
+            return view('customer/index');
         }
 
-        return view('customer/index');
+        return redirect()->route('login');
     }
 
+    //  if user already logged in - show page to create new appointment
     public function create()
     {
-        if ($this->session->isLoggedIn) {
-            return redirect()->route('home');
+        if (!$this->session->isLoggedIn) {
+            return redirect()->route('login');
         }
 
         // Create role model object
@@ -39,6 +42,8 @@ class AppointmentController extends BaseController
         return view('customer/newAppointment', ['tutors' => $tutors->getResult()]);
     }
 
+
+    // getting list of all saved appointments against user_id and User_role (Admin will get all appointments)
     public function getAppointments()
     {
         $startDate = strtotime($this->request->getGet('start_date'));
@@ -67,6 +72,7 @@ class AppointmentController extends BaseController
         return json_encode($result);
     }
 
+    // book new aapointment and store it into database.
     public function store()
     {
         $appointmentModel = new AppointmentModel();
@@ -107,6 +113,7 @@ class AppointmentController extends BaseController
         }
     }
 
+    // approve or reject an appointment
     public function updateStatus() {
         $appointmentId = $this->request->getPost('appointment_id');
         $status = $this->request->getPost('status');
@@ -120,6 +127,7 @@ class AppointmentController extends BaseController
         }
     }
 
+    // check if Tutor is available in given time-slot
     private function isTutorAvailable($tutorId, $date, $timeSlot)
     {
         $appointmentModel = new AppointmentModel();

@@ -119,7 +119,7 @@ body, html {
     line-height: 36px;
     padding: .4rem .65rem;
     text-align: center;
-    background-color: rgba(214, 214, 214, 1);
+    /*background-color: rgba(214, 214, 214, 1);*/
   }
   header li.menu-item a:hover,
   header li.menu-item a:focus {

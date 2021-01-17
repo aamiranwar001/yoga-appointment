@@ -37,7 +37,21 @@ if (session()->has('success')) {
 
     <title>Signup!</title>
 </head>
-<body class="bg"
+<body class="bg">
+<div class="menu">
+      <header>
+		<ul>
+			<li class="menu-toggle">
+				<button onclick="toggleMenu();">&#9776;</button>
+			</li>
+			<li class="menu-item hidden"><a href="<?= route_to('home') ?>">Home</a></li>
+            <li class="menu-item hidden"><a href="<?= route_to('newAppointment') ?>">Book Appointment</a></li>
+			<li class="menu-item hidden"><a href="<?= route_to('appointments') ?>">Appointments</a></li>
+			<li class="menu-item hidden"><a href="<?= route_to('logout') ?>">Logout</a></li>
+			
+        </ul>
+      </header>
+	</div>
 <div class="container-fluid h-100">
     <div class="row justify-content-center align-items-center h-100">
         <div class="col col-sm-10 col-md-8 col-lg-6 col-xl-6">
@@ -101,10 +115,12 @@ if (session()->has('success')) {
 
                         <div class="row">
                             <div class="col">
+                            <div class="form-group">
                                 <select name="role_id" class="form-control form-control-lg">
                                     <option value="2">Tutor</option>
                                     <option value="3">Customer</option>
                                 </select>
+                                </div>
                             </div>
                         </div>
 
