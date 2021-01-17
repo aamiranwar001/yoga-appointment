@@ -34,7 +34,9 @@ $routes->get('/', 'Home::index', ['as' => 'home', 'filter' => 'auth']);
 $routes->get('/login', 'AuthController::login', ['as' => 'login']);
 $routes->post('/login', 'AuthController::attemptLogin');
 $routes->get('/register', 'AuthController::register', ['as' => 'register']);
+$routes->get('/registration', 'AuthController::registration', ['as' => 'registration']);
 $routes->post('/register', 'AuthController::attemptRegister');
+$routes->post('/register/user', 'AuthController::attemptRegisterUser');
 $routes->get('/logout', 'AuthController::logout', ['as' => 'logout']);
 
 $routes->get('/appointments', 'AppointmentController::index', ['as' => 'appointments']);

@@ -10,11 +10,19 @@ class AppointmentController extends BaseController
 {
     public function index()
     {
+        if ($this->session->isLoggedIn) {
+            return redirect()->route('home');
+        }
+
         return view('customer/index');
     }
 
     public function create()
     {
+        if ($this->session->isLoggedIn) {
+            return redirect()->route('home');
+        }
+
         // Create role model object
         $roleModel = new RoleModel();
 

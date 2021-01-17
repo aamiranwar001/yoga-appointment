@@ -24,6 +24,15 @@ class AuthController extends BaseController
         return view('auth/register');
     }
 
+    public function registration()
+    {
+        if ($this->session->isLoggedIn) {
+            return redirect()->route('home');
+        }
+
+        return view('tutor/register');
+    }
+
     public function attemptLogin()
     {
         $userModel = new UserModel();
@@ -78,6 +87,20 @@ class AuthController extends BaseController
         }
 
         return redirect()->to('login')->with('success', 'Successfully registered. Please login to continue :)');
+    }
+
+    public function attemptRegisterUser()
+    {
+        $userModel = new UserModel();
+        $rules = $userModel->getRegistrationRules();
+        $userModel->setValidationRules($rules);
+
+        if (! $userModel->save($this->request->getPost()))
+        {
+            return redirect()->back()->withInput()->with('errors', $userModel->errors());
+        }
+
+        return redirect()->back()->with('success', 'Successfully registered. Please login to continue :)');
     }
 
     public function logout()
